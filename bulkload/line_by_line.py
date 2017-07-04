@@ -10,7 +10,7 @@ def insert_line_by_line(logger):
         reader = csv.reader(trips_csv)
         # ignore header
         next(reader)
-        conn = PostgresDb('bulkload', 'postgres','localhost', 'postgres')
+        conn = PostgresDb('workshop', 'postgres','db', 'postgres')
         for idx, row in  enumerate(reader):
             query = "INSERT INTO trips VALUES(%s, %s, %s, %s, %s, %s, %s)"
             conn.execute(query, (row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
