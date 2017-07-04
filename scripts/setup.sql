@@ -1,3 +1,5 @@
+CREATE DATABASE workshop;
+\c workshop;
 DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
   duration_ms VARCHAR(250),

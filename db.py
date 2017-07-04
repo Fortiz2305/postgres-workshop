@@ -3,7 +3,7 @@ import psycopg2
 from measure import measure
 
 
-class DB(object):
+class PostgresDb:
 
     def __init__(self, name, user, host='localhost', password=None):
         self.name = name
@@ -13,23 +13,25 @@ class DB(object):
         self.connection = None
         self.connected = False
 
-    @measure
-    def execute(self, db_query):
+    # @measure
+    def execute(self, db_query, params):
         if not self.connected:
             self._connect()
         result = None
         try:
-            result = self._run(db_query)
+            result = self._run(db_query, params)
         except psycopg2.Error as e:
             raise
         finally:
             self._disconnect()
         return result
 
-    def _run(self, query):
+    def _run(self, query, params=None):
+        if not params:
+            params = ()
         with self.connection:
             with self.connection.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, params)
                 if query.strip().upper().startswith('SELECT'):
                     query_result = cursor.fetchall()
                 else:
@@ -38,12 +40,12 @@ class DB(object):
             return query_result
 
     def _connect(self):
-        if not self.connection:
+        if not self.connection or self.connection.closed:
             self.connection = psycopg2.connect(dbname=self.name,
                                                user=self.user,
                                                host=self.host,
                                                password=self.password)
 
     def _disconnect(self):
-        self.connected = False
         self.connection.close()
+        self.connected = False
