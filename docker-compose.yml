@@ -1,0 +1,32 @@
+version: "2"
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /code
+    command: "/bin/true"
+    volumes:
+      - .:/code
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=workshop
+  pg_workshop:
+    extends: base
+    depends_on:
+        - db_setup
+    command: "/bin/true"
+    links:
+      - db
+  db_setup:
+    extends: base
+    command: "/bin/bash -c '/code/scripts/setup_db.sh'"
+    links:
+      - db
+  db:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=workshop
