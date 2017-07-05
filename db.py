@@ -1,7 +1,5 @@
 import psycopg2
 
-from measure import measure
-
 
 class PostgresDb:
 
@@ -13,8 +11,7 @@ class PostgresDb:
         self.connection = None
         self.connected = False
 
-    # @measure
-    def execute(self, db_query, params):
+    def execute(self, db_query, params=None):
         if not self.connected:
             self._connect()
         result = None
