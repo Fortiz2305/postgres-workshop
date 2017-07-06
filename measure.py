@@ -7,6 +7,6 @@ def measure(method):
         result = method(*args, **kw)
         te = time.time()
 
-        print('query: ({}, {}) time: {} sec'.format(args, kw, te-ts))
+        print('query time: {} sec'.format(te-ts))
         return result
     return timed
