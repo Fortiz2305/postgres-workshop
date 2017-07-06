@@ -1,7 +1,8 @@
 import csv
-import logging
+
 from db import PostgresDb
 from measure import measure
+from util.log import get_logger
 
 
 @measure
@@ -16,7 +17,8 @@ def insert_line_by_line(logger):
             conn.execute(query, (row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
             if idx % 1000 == 0:
                 logger.info("1000 registros insertados")
+
+
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s.%(msecs)03d:%(levelname)s - %(message)s', datefmt='%Y-%m-%d,%H:%M:%S', level=logging.DEBUG)
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
     insert_line_by_line(logger)

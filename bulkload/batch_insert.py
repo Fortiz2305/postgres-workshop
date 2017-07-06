@@ -1,7 +1,8 @@
 import csv
-import logging
+
 from db import PostgresDb
 from measure import measure
+from util.log import get_logger
 
 # http://initd.org/psycopg/docs/extras.html#fast-exec
 
@@ -31,7 +32,7 @@ def insert_line_by_line_prepared_statements(logger):
             logger.info('closing connection ...')
             conn.disconnect()
 
+
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s.%(msecs)03d:%(levelname)s - %(message)s', datefmt='%Y-%m-%d,%H:%M:%S', level=logging.DEBUG)
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
     insert_line_by_line_prepared_statements(logger)
