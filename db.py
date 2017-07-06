@@ -11,7 +11,7 @@ class PostgresDb:
         self.connection = None
         self.connected = False
 
-    def execute(self, db_query, params=None):
+    def execute(self, db_query, params=None, disconnect=True):
         if not self.connected:
             self._connect()
         result = None
@@ -20,7 +20,8 @@ class PostgresDb:
         except psycopg2.Error as e:
             raise
         finally:
-            self._disconnect()
+            if disconnect:
+                self.disconnect()
         return result
 
     def _run(self, query, params=None):
@@ -43,6 +44,6 @@ class PostgresDb:
                                                host=self.host,
                                                password=self.password)
 
-    def _disconnect(self):
+    def disconnect(self):
         self.connection.close()
         self.connected = False
