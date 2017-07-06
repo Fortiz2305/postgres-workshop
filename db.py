@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import execute_values
 
 
 class PostgresDb:
@@ -17,6 +18,27 @@ class PostgresDb:
         result = None
         try:
             result = self._run(db_query, params)
+        except psycopg2.Error as e:
+            raise
+        finally:
+            if disconnect:
+                self.disconnect()
+        return result
+
+    def execute_values(self, db_query, params=None, page_size=100, disconnect=True):
+        if not self.connected:
+            self._connect()
+        result = None
+        if not params:
+            params = ()
+        try:
+            with self.connection:
+                with self.connection.cursor() as cursor:
+                    execute_values(cursor, db_query, params, page_size=page_size)
+                    if db_query.strip().upper().startswith('SELECT'):
+                        result = cursor.fetchall()
+                    else:
+                        result = True
         except psycopg2.Error as e:
             raise
         finally:
