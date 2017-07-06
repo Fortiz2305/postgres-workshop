@@ -14,8 +14,8 @@ def insert_line_by_line(logger):
         for idx, row in  enumerate(reader):
             query = "INSERT INTO trips VALUES(%s, %s, %s, %s, %s, %s, %s)"
             conn.execute(query, (row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
-            if idx % 10000:
-                logger.info("10000 registros insertados")
+            if idx % 1000 == 0:
+                logger.info("1000 registros insertados")
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s.%(msecs)03d:%(levelname)s - %(message)s', datefmt='%Y-%m-%d,%H:%M:%S', level=logging.DEBUG)
     logger = logging.getLogger(__name__)
