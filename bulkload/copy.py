@@ -1,19 +1,16 @@
-import csv
-import logging
 from db import PostgresDb
 from measure import measure
+from util.log import get_logger
 
 
 @measure
-def insert_copy(logger):
-    conn = PostgresDb('workshop', 'postgres','db', 'postgres')
-    query = "COPY trips FROM '{}' WITH (FORMAT CSV, HEADER true)".format('/opt/data.csv')
-    logger.info('Empezando el COPY')
+def copy_from(logger, file_):
+    conn = PostgresDb(name='copy_test', user='postgres')
+    query = "COPY events2(id, ts, category, type, user_id, data) \
+FROM '{}' DELIMITER ',' CSV HEADER".format(file_)
     conn.execute(query)
-    logger.info('COPY finalizado')
 
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s.%(msecs)03d:%(levelname)s - %(message)s', datefmt='%Y-%m-%d,%H:%M:%S', level=logging.DEBUG)
-    logger = logging.getLogger(__name__)
-    insert_copy(logger)
+    logger = get_logger(__name__)
+    copy_from(logger, '../resources/sample-500k.csv')
