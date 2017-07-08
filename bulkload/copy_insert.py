@@ -1,7 +1,7 @@
 import csv
-import logging
 from db import PostgresDb
 from measure import measure
+from util.log import get_logger
 
 
 @measure
@@ -14,6 +14,5 @@ def insert_copy(logger):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s.%(msecs)03d:%(levelname)s - %(message)s', datefmt='%Y-%m-%d,%H:%M:%S', level=logging.DEBUG)
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
     insert_copy(logger)
