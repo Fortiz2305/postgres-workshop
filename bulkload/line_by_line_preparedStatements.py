@@ -3,6 +3,8 @@ import csv
 from db import PostgresDb
 from measure import measure
 from util.log import get_logger
+from bulkload import PAGE_SIZE
+
 
 # http://initd.org/psycopg/articles/2012/10/01/prepared-statements-psycopg/
 # https://www.postgresql.org/docs/current/static/sql-prepare.html
@@ -19,8 +21,8 @@ def insert_line_by_line_prepared_statements(logger):
             conn.execute(prepared_statement, disconnect=False)
             for idx, row in  enumerate(reader):
                 conn.execute("execute bulkplan (%s, %s, %s, %s, %s, %s, %s)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6]), disconnect=False)
-                if idx % 1000 == 0:
-                    logger.info("1000 registros insertados")
+                if idx % PAGE_SIZE == 0:
+                    logger.info("{} registros insertados".format(PAGE_SIZE))
         finally:
             logger.info('closing connection ...')
             conn.disconnect()

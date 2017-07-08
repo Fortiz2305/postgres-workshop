@@ -3,6 +3,7 @@ import csv
 from db import PostgresDb
 from measure import measure
 from util.log import get_logger
+from bulkload import PAGE_SIZE
 
 # http://initd.org/psycopg/docs/extras.html#fast-exec
 
@@ -19,10 +20,10 @@ def insert_line_by_line_prepared_statements(logger):
             arg_list = []
             for idx, row in  enumerate(reader):
                 arg_list.append((row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
-                if idx % 1000 == 0:
+                if idx % PAGE_SIZE == 0:
                     # conn.execute_values("execute bulkplan %s", arg_list, disconnect=False)
                     conn.execute_values("INSERT INTO trips VALUES %s", arg_list, page_size=1000, disconnect=False)
-                    logger.info("1000 registros insertados")
+                    logger.info("{} registros insertados".format(PAGE_SIZE))
                     arg_list = []
             else:
                 if arg_list:

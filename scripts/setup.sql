@@ -9,7 +9,7 @@ CREATE TABLE trips (
   end_terminal VARCHAR(250),
   bike_number VARCHAR(20),
   subscription_type VARCHAR(20)
-)
+);
 
 CREATE TABLE IF NOT EXISTS events (
   id character varying(40) NOT NULL,
