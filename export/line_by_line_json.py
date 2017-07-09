@@ -14,8 +14,10 @@ def export_with_csv_json(logger):
     with open('./test_json.csv', 'w') as f:
         dict_writer = csv.DictWriter(f, fieldnames=['uri', 'ip', 'location', 'num_requests', 'bytes'])
         dict_writer.writeheader()
-        for row in records:
+        for idx, row in enumerate(records):
             dict_writer.writerow(row[0])
+            if idx % 1000 == 0:
+                print('1000 inserted: {}'.format(idx))
     logger.info('Done writing')
 
 

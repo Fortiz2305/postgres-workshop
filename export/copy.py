@@ -13,7 +13,7 @@ data->>'bytes' as bytes, \
 data->>'ip' as ip \
 FROM events WHERE \
 data->>'location'='MAD50' AND \
-data->>'num_requests'='1') TO '/home/fortiz/Developments/postgres-workshop/test.csv' DELIMITER ',' CSV HEADER"
+data->>'num_requests'='1') TO '/tmp/test.csv' DELIMITER ',' CSV HEADER"
     conn.execute(query)
     logger.info('Done writing')
 

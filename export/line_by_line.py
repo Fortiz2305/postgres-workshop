@@ -8,14 +8,22 @@ from util.log import get_logger
 @measure
 def export_with_csv(logger):
     conn = PostgresDb(name='copy_test', user='postgres')
-    query = "SELECT * FROM events"
+    query = "SELECT data->'location' as location, \
+data->>'uri' as uri, \
+data->>'num_requests' as num_requests, \
+data->>'bytes' as bytes, \
+data->>'ip' as ip \
+FROM events WHERE \
+data->>'location'='MAD50' and data->>'num_requests'='1'"
     records = conn.execute(query)
 
     with open('./test1.csv', 'w') as f:
         writer = csv.writer(f, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(['uri', 'ip', 'location', 'num_requests', 'bytes'])
-        for row in records:
+        writer.writerow(['location', 'uri', 'num_requests', 'bytes', 'ip'])
+        for idx, row in enumerate(records):
             writer.writerow(row)
+            if idx % 1000 == 0:
+                print('1000 inserted: {}'.format(idx))
     logger.info('Done writing')
 
 
