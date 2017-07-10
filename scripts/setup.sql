@@ -1,4 +1,3 @@
-CREATE DATABASE workshop;
 \c workshop;
 DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
