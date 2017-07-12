@@ -73,3 +73,12 @@ def insert_copy(logger):
     logger.info('Empezando el COPY')
     conn.execute(query)
     logger.info('COPY finalizado')
+
+
+@measure
+def insert_copy_events(logger, csv_path):
+    conn = PostgresDb('workshop', 'postgres', 'db', 'postgres')
+    query = "COPY events \
+FROM '{}' WITH (FORMAT CSV, HEADER true)".format(csv_path)
+    logger.info('Executing COPY...')
+    conn.execute(query)
