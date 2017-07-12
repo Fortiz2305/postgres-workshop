@@ -1,6 +1,6 @@
-from db import PostgresDb
-from measure import measure
-from util.log import get_logger
+from postgres_workshop.db import PostgresDb
+from postgres_workshop.measure import measure
+from postgres_workshop.util.log import get_logger
 
 
 @measure

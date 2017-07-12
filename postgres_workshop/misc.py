@@ -1,5 +1,4 @@
-from db import PostgresDb
-from util.log import get_logger
+from postgres_workshop.db import PostgresDb
 
 
 def count(logger):

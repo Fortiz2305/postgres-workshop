@@ -1,7 +1,7 @@
 import click
-from util.log import get_logger
-from misc import clean_db, count
-from bulkload.insert_flavours import (
+from postgres_workshop.util.log import get_logger
+from postgres_workshop.misc import clean_db, count
+from postgres_workshop.bulkload.insert_flavours import (
     insert_line_by_line,
     insert_line_by_line_prepared_statements,
     batch_insert,
