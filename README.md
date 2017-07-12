@@ -7,3 +7,13 @@ Using the following [data](https://www.capitalbikeshare.com/system-data) for 201
 * Using Prepared Statements
 * Batch insertion
 * Using [COPY](https://www.postgresql.org/docs/current/static/sql-copy.html) command of postgresql
+
+## Export tables into CSV
+
+Using a 500k rows table, we are going to try exporting files using the different approaches:
+
+  * Line by Line
+  * Line by Line using JSON format.
+  * Using the COPY command.
+
+NOTE: this can be done using the same data that we used in the bulkload part.
