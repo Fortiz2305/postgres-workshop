@@ -5,8 +5,8 @@ from bulkload import PAGE_SIZE
 
 
 @measure
-def insert_line_by_line(logger):
-    with open('./resources/2015-Q2-Trips-History-Data.csv') as trips_csv:
+def insert_line_by_line(logger, csv_path):
+    with open(csv_path) as trips_csv:
         reader = csv.reader(trips_csv)
         # ignore header
         next(reader)
@@ -19,10 +19,10 @@ def insert_line_by_line(logger):
 
 
 @measure
-def insert_line_by_line_prepared_statements(logger):
+def insert_line_by_line_prepared_statements(logger, csv_path):
     # http://initd.org/psycopg/articles/2012/10/01/prepared-statements-psycopg/
     # https://www.postgresql.org/docs/current/static/sql-prepare.html
-    with open('./resources/2015-Q2-Trips-History-Data.csv') as trips_csv:
+    with open(csv_path) as trips_csv:
         reader = csv.reader(trips_csv)
         # ignore header
         next(reader)
@@ -43,9 +43,9 @@ def insert_line_by_line_prepared_statements(logger):
 
 
 @measure
-def batch_insert(logger):
+def batch_insert(logger, csv_path):
     # http://initd.org/psycopg/docs/extras.html#fast-exec
-    with open('./resources/2015-Q2-Trips-History-Data.csv') as trips_csv:
+    with open(csv_path) as trips_csv:
         reader = csv.reader(trips_csv)
         # ignore header
         next(reader)

@@ -15,6 +15,7 @@ logger = get_logger(__name__)
 def cli():
     pass
 
+
 @cli.command()
 def cleandb():
     clean_db(logger)
@@ -32,11 +33,13 @@ def insert(mode):
     modes = {
         'line-by-line': insert_line_by_line,
         'prep-stat': insert_line_by_line_prepared_statements,
-        'batch': batch_insert,
-        'copy': insert_copy
+        'batch': batch_insert
 
     }
-    modes[mode](logger)
+    if mode == 'copy':
+        insert_copy(logger)
+    else:
+        modes[mode](logger=logger, csv_path='./resources/2015-Q2-Trips-History-Data.csv')
 
 
 if __name__ == '__main__':
