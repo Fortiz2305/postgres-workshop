@@ -21,7 +21,7 @@ services:
       - ./scripts/setup.sql:/docker-entrypoint-initdb.d/setup.sql
       - ./resources/2015-Q2-Trips-History-Data.csv:/opt/data.csv
       - ./resources/sample-500k.csv:/opt/data_events.csv
-      - ./resources/test.csv:/opt/data/test.csv
+      - ./resources/test.csv:/opt/test.csv
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
